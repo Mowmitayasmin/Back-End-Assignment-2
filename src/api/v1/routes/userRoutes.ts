@@ -7,15 +7,15 @@ import * as userController from "../controllers/userController";
 const router: Router = express.Router();
 
 /**
- * @route GET /
- * @description Get all employees.
- */
-router.get("/", userController.getAllEmployees);
-
-/**
  * @route POST /api/v1/employees
  * @description Create a new employee
  */
 router.post("/", userController.createEmployee);
+
+/**
+ * @route GET /
+ * @description Get all employees.
+ */
+router.get("/", userController.getAllEmployees);
 
 export default router;

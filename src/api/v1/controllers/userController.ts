@@ -28,14 +28,9 @@ export const createEmployee = async (
  * @route GET /
  * @returns {Promise<void>}
  */
-export const getAllEmployees = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-): Promise<void> => {
+export const getAllEmployees = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const employees: User[] = await userService.getAllEmployees();
-
         res.status(200).json({ message: "Employees Retrieved", data: employees });
     } catch (error) {
         next(error);
