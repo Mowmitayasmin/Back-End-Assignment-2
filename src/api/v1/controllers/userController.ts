@@ -36,3 +36,26 @@ export const getAllEmployees = async (req: Request, res: Response, next: NextFun
         next(error);
     }
 };
+
+/**
+ * @description Get an employee by ID.
+ * @route GET /api/v1/employees/:id
+ * @returns {Promise<void>}
+ */
+export const getEmployeeById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { id } = req.params; 
+        const employee: User | null = await userService.getEmployeeById(id); 
+
+        res.status(200).json({ 
+            message: employee ? "Employee Retrieved" : "Employee not found", 
+            data: employee 
+        });
+    } catch (error) {
+        next(error);
+    }
+};

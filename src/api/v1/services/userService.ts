@@ -41,3 +41,13 @@ export const createEmployee = async (employee: {
 export const getAllEmployees = async (): Promise<User[]> => {
     return employees;
 };
+
+/**
+ * @description Get an employee by ID.
+ * @param {string} id - The ID of the employee.
+ * @returns {Promise<User | null>}
+ */
+export const getEmployeeById = async (id: string): Promise<User | null> => {
+    const employee = employees.find(emp => emp.id === id);
+    return employee || null; // Return employee if found, otherwise null
+};

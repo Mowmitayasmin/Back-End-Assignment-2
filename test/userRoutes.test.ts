@@ -3,10 +3,11 @@ import request from "supertest";
 import app from "../src/app";
 import { createEmployee } from "../src/api/v1/controllers/userController";
 
-// Mocking the createEmployee controller function
+
 jest.mock("../src/api/v1/controllers/userController", () => ({
     createEmployee: jest.fn((req, res) => res.status(201).send()),
     getAllEmployees: jest.fn(() => [{ id: "1", name: "John Doe", position: "Software Engineer", department: "Engineering", email: "johndoe@example.com", phone: "1234567890", branchId: "1" }]),
+    getEmployeeById: jest.fn(),
 }));
 
 describe("User Routes", () => {
@@ -32,4 +33,3 @@ describe("User Routes", () => {
     });
 }); 
 
- 

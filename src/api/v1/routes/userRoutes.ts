@@ -18,4 +18,10 @@ router.post("/", userController.createEmployee);
  */
 router.get("/", userController.getAllEmployees);
 
+/**
+ * @route GET /api/v1/employees/:id
+ * @description Get an employee by ID.
+ */
+router.get("/:id", userController.getEmployeeById);
+
 export default router;
