@@ -33,4 +33,11 @@ export const createEmployee = async (employee: {
     employees.push(newEmployee);
     return newEmployee;
 };
-  
+
+/**
+ * @description Get all employees.
+ * @returns {Promise<User[]>}
+ */
+export const getAllEmployees = async (): Promise<User[]> => {
+    return employees;
+};
