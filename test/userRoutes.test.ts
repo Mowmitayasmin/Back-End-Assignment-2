@@ -1,14 +1,14 @@
 // userRoutes.test.ts
 import request from "supertest";
 import app from "../src/app";
-import { createEmployee, getEmployeeById, updateEmployeeById } from "../src/api/v1/controllers/userController";
-
+import { createEmployee, getEmployeeById, updateEmployeeById, deleteEmployeeById } from "../src/api/v1/controllers/userController";
 
 jest.mock("../src/api/v1/controllers/userController", () => ({
     createEmployee: jest.fn((req, res) => res.status(201).send()),
     getAllEmployees: jest.fn(() => [{ id: "1", name: "John Doe", position: "Software Engineer", department: "Engineering", email: "johndoe@example.com", phone: "1234567890", branchId: "1" }]),
     getEmployeeById: jest.fn(),
     updateEmployeeById: jest.fn(),
+    deleteEmployeeById: jest.fn((req, res) => res.status(200).json({ message: "Employee Deleted Successfully" })),
 }));
 
 describe("User Routes", () => {
@@ -96,6 +96,26 @@ describe("User Routes", () => {
             });
 
             expect(updateEmployeeById).toHaveBeenCalled();
+        });
+    });
+
+    
+    // New test case for deleting an employee
+    describe("DELETE /api/v1/employees/:id", () => {
+        it("should delete an employee and return a success message", async () => {
+            const employeeId = "1";
+
+            // Mock the deleteEmployeeById controller function
+            (deleteEmployeeById as jest.Mock).mockImplementation(async (req, res) => {
+                res.status(200).json({ message: "Employee Deleted Successfully" });
+            });
+
+            const response = await request(app).delete(`/api/v1/employees/${employeeId}`);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual({ message: "Employee Deleted Successfully" });
+
+            expect(deleteEmployeeById).toHaveBeenCalled();
         });
     });
 });
