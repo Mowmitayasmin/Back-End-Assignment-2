@@ -33,4 +33,12 @@ router.get("/:id", userController.getEmployeeById);
  */
 router.put("/:id", userController.updateEmployeeById);
 
+/**
+ * @route DELETE /api/v1/employees/:id
+ * @description Delete an employee by ID.
+ * @param {string} id - The ID of the employee to delete.
+ * @returns {object} Confirmation of deletion.
+ */
+router.delete("/:id", userController.deleteEmployeeById);
+
 export default router;

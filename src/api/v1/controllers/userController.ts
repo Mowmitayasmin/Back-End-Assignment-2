@@ -82,3 +82,24 @@ export const updateEmployeeById = async (
         next(error);
     }
 };
+
+/**
+ * @description Delete an existing employee.
+ * @route DELETE /api/v1/employees/:id
+ * @returns {Promise<void>}
+ */
+export const deleteEmployeeById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { id } = req.params;
+
+        await userService.deleteEmployee(id);
+
+        res.status(200).json({ message: "Employee Deleted Successfully" });
+    } catch (error) {
+        next(error);
+    }
+};
