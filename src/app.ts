@@ -5,6 +5,7 @@ import morgan from "morgan";
 // import setupSwagger endpoint
 import setupSwagger from "../config/swagger";
 import userRoutes from "./api/v1/routes/userRoutes";
+import branchRoutes from "./api/v1/routes/branchRoutes";
 
 // initialize the express application
 const app: Express = express();
@@ -16,7 +17,8 @@ app.use(morgan("combined"));
 app.use(express.json());
 
 // define your routes
-app.use("/api/v1/employees", userRoutes);  // Place this line after initializing the app
+app.use("/api/v1/employees", userRoutes);  
+app.use("/api/v1/branches", branchRoutes);
 
 // respond to GET request at endpoint "/" with message
 app.get("/", (req, res) => {

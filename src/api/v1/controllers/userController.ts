@@ -1,7 +1,7 @@
 // userController.ts
 import { Request, Response, NextFunction } from "express";
 import * as userService from "../services/userService";
-import type { User } from "../services/userService";
+import { User } from "../services/userService";
 
 /**
  * @description Create a new employee.

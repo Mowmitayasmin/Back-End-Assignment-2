@@ -3,7 +3,7 @@
  * @interface User
  * @description Represents an employee object.
  */
-export type User = {
+export interface User  {
     id: string;
     name: string;
     position: string;
