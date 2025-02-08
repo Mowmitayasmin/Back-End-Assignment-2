@@ -1,13 +1,14 @@
 // userRoutes.test.ts
 import request from "supertest";
 import app from "../src/app";
-import { createEmployee, getEmployeeById } from "../src/api/v1/controllers/userController";
+import { createEmployee, getEmployeeById, updateEmployeeById } from "../src/api/v1/controllers/userController";
 
 
 jest.mock("../src/api/v1/controllers/userController", () => ({
     createEmployee: jest.fn((req, res) => res.status(201).send()),
     getAllEmployees: jest.fn(() => [{ id: "1", name: "John Doe", position: "Software Engineer", department: "Engineering", email: "johndoe@example.com", phone: "1234567890", branchId: "1" }]),
     getEmployeeById: jest.fn(),
+    updateEmployeeById: jest.fn(),
 }));
 
 describe("User Routes", () => {
@@ -61,6 +62,40 @@ describe("User Routes", () => {
             });
 
             expect(getEmployeeById).toHaveBeenCalled();
+        });
+    });
+    describe("PUT /api/v1/employees/:id", () => {
+        it("should update an employee's data and return the updated employee", async () => {
+            const employeeId = "1";
+            const updateData = { position: "Senior Developer", phone: "9876543210" };
+            const updatedEmployee = {
+                id: employeeId,
+                name: "John Doe",
+                position: "Senior Developer",
+                department: "Engineering",
+                email: "johndoe@example.com",
+                phone: "9876543210",
+                branchId: "1",
+            };
+
+            (updateEmployeeById as jest.Mock).mockImplementation(async (req, res) => {
+                res.status(200).json({
+                    message: "Employee Updated",
+                    data: updatedEmployee,
+                });
+            });
+
+            const response = await request(app)
+                .put(`/api/v1/employees/${employeeId}`)
+                .send(updateData);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual({
+                message: "Employee Updated",
+                data: updatedEmployee,
+            });
+
+            expect(updateEmployeeById).toHaveBeenCalled();
         });
     });
 });
