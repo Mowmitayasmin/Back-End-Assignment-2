@@ -1,12 +1,12 @@
 import request from "supertest";
 import app from "../src/app";
-import { createBranch } from "../src/api/v1/controllers/branchController";
+import { createBranch} from "../src/api/v1/controllers/branchController";
 
 jest.mock("../src/api/v1/controllers/branchController", () => ({
     createBranch: jest.fn((req, res) => res.status(201).send({
         message: "Branch Created",
         data: { id: "1", name: "Main Branch", address: "123 Main St", phone: "123-456-7890" }
-    })),
+    })),  
 }));
 
 describe("Branch Routes", () => {
@@ -40,3 +40,4 @@ describe("Branch Routes", () => {
         });
     });
 });
+
