@@ -59,3 +59,26 @@ export const getEmployeeById = async (
         next(error);
     }
 };
+
+/**
+ * @description Update an existing employee.
+ * @route PATCH /api/v1/employees/:id
+ * @returns {Promise<void>}
+ */
+export const updateEmployeeById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        // Call the userService by passing the id from the URL path and the request body
+        const updatedEmployee = await userService.updateEmployee(
+            req.params.id,
+            req.body
+        );
+
+        res.status(200).json({ message: "Employee Updated", data: updatedEmployee });
+    } catch (error) {
+        next(error);
+    }
+};

@@ -51,3 +51,26 @@ export const getEmployeeById = async (id: string): Promise<User | null> => {
     const employee = employees.find(emp => emp.id === id);
     return employee || null; // Return employee if found, otherwise null
 };
+
+/**
+ * @description Update an existing employee.
+ * @param {string} id - The ID of the employee to update.
+ * @param {Partial<User>} employee - The fields to update (e.g., position, phone).
+ * @returns {Promise<User>}
+ * @throws {Error} If the employee with the given ID is not found.
+ */
+export const updateEmployee = async (
+    id: string,
+    employee: Partial<User>
+): Promise<User> => {
+    const employeeRecord = employees.find(emp => emp.id === id);
+
+    if (!employeeRecord) {
+        throw new Error(`Employee with ID ${id} not found`);
+    }
+
+    // Update only the fields provided in the request body (partial update)
+    Object.assign(employeeRecord, employee);
+
+    return employeeRecord;
+};

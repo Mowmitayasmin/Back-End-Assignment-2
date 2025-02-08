@@ -24,4 +24,13 @@ router.get("/", userController.getAllEmployees);
  */
 router.get("/:id", userController.getEmployeeById);
 
+/**
+ * @route PUT /api/v1/employees/:id
+ * @description Update an existing employee (e.g., update position or phone number).
+ * @param {string} id - The ID of the employee to update.
+ * @param {object} employee - The updated employee data (position, phone, etc.).
+ * @returns {object} The updated employee data.
+ */
+router.put("/:id", userController.updateEmployeeById);
+
 export default router;
