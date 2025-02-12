@@ -45,15 +45,6 @@ describe("User Routes", () => {
                     phone: "1234567890",
                     branchId: "1",
                 },
-                {
-                    id: "2",
-                    name: "Jane Smith",
-                    position: "Product Manager",
-                    department: "Product",
-                    email: "janesmith@example.com",
-                    phone: "0987654321",
-                    branchId: "2",
-                },
             ];
     
             // Mock the getAllEmployees controller function

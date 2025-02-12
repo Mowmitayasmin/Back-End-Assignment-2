@@ -22,3 +22,21 @@ export const createBranch = async (
         next(error);
     }
 };
+
+/**
+ * @description Get all branches.
+ * @route GET /api/v1/branches
+ * @returns {Promise<void>}
+ */
+export const getAllBranches = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const branches: Branch[] = await branchService.getAllBranches();
+        res.status(200).json({ message: "Branches Retrieved", data: branches });
+    } catch (error) {
+        next(error);
+    }
+};

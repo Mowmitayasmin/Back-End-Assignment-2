@@ -26,3 +26,11 @@ export const createBranch = async (branch: {
     branches.push(newBranch);
     return newBranch;
 };
+
+/**
+ * @description Get all branches.
+ * @returns {Promise<Branch[]>} - A list of all branches.
+ */
+export const getAllBranches = async (): Promise<Branch[]> => {
+    return branches;
+};
