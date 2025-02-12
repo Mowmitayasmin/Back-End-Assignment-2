@@ -32,6 +32,50 @@ describe("User Routes", () => {
         });
 
     });
+
+    describe("GET /api/v1/employees", () => {
+        it("should return an array of all employees", async () => {
+            const mockEmployees = [
+                {
+                    id: "1",
+                    name: "John Doe",
+                    position: "Software Engineer",
+                    department: "Engineering",
+                    email: "johndoe@example.com",
+                    phone: "1234567890",
+                    branchId: "1",
+                },
+                {
+                    id: "2",
+                    name: "Jane Smith",
+                    position: "Product Manager",
+                    department: "Product",
+                    email: "janesmith@example.com",
+                    phone: "0987654321",
+                    branchId: "2",
+                },
+            ];
+    
+            // Mock the getAllEmployees controller function
+            (jest.requireMock("../src/api/v1/controllers/userController").getAllEmployees as jest.Mock).mockImplementation(async (req, res) => {
+                res.status(200).json({
+                    message: "All Employees Retrieved",
+                    data: mockEmployees,
+                });
+            });
+    
+            const response = await request(app).get("/api/v1/employees");
+    
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual({
+                message: "All Employees Retrieved",
+                data: mockEmployees,
+            });
+    
+            expect(jest.requireMock("../src/api/v1/controllers/userController").getAllEmployees).toHaveBeenCalled();
+        });
+    });
+
     describe("GET /api/v1/employees/:id", () => {
         it("should return the correct employee for a given ID", async () => {
             const employeeId = "1";

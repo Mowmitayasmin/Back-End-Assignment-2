@@ -10,10 +10,4 @@ const router: Router = express.Router();
  */
 router.post("/", branchController.createBranch);
 
-/**
- * @route GET /api/v1/branches
- * @description Get all branches
- */
-router.get("/", branchController.getAllBranches);
-
 export default router;

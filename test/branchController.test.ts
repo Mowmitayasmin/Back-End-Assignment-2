@@ -35,6 +35,9 @@ describe("Branch Controller", () => {
             // Mock service to resolve the new branch
             (branchService.createBranch as jest.Mock).mockResolvedValue(mockCreatedBranch);
 
+            // Set the request body to the newBranchData
+            mockReq.body = newBranchData;
+
             // Call the controller function
             await branchController.createBranch(mockReq as Request, mockRes as Response, mockNext);
 
