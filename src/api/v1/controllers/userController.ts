@@ -103,3 +103,26 @@ export const deleteEmployeeById = async (
         next(error);
     }
 };
+
+/**
+ * @description Get all employees for a specific branch.
+ * @route GET /api/v1/employees/branch/:branchId
+ * @returns {Promise<void>}
+ */
+export const getEmployeesByBranch = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { branchId } = req.params;
+        const employees: User[] = await userService.getEmployeesByBranch(branchId);
+        
+        res.status(200).json({ 
+            message: employees.length ? "Employees Retrieved" : "No employees found for this branch", 
+            data: employees 
+        });
+    } catch (error) {
+        next(error);
+    }
+};

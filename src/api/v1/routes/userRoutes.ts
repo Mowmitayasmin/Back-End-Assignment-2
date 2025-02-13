@@ -2,7 +2,6 @@
 import express, { Router } from "express";
 import * as userController from "../controllers/userController";
 
-
 // Create an instance of the router for the user-related routes
 const router: Router = express.Router();
 
@@ -40,5 +39,13 @@ router.put("/:id", userController.updateEmployeeById);
  * @returns {object} Confirmation of deletion.
  */
 router.delete("/:id", userController.deleteEmployeeById);
+
+/**
+ * @route GET /api/v1/employees/branch/:branchId
+ * @description Get all employees for a specific branch.
+ * @param {string} branchId - The ID of the branch.
+ * @returns {object[]} An array of employees belonging to the specified branch.
+ */
+router.get("/branch/:branchId", userController.getEmployeesByBranch);
 
 export default router;

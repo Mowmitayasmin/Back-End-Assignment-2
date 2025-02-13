@@ -1,7 +1,7 @@
 // userRoutes.test.ts
 import request from "supertest";
 import app from "../src/app";
-import { createEmployee, getEmployeeById, updateEmployeeById, deleteEmployeeById } from "../src/api/v1/controllers/userController";
+import { createEmployee, getEmployeeById, updateEmployeeById, deleteEmployeeById, getEmployeesByBranch } from "../src/api/v1/controllers/userController";
 
 jest.mock("../src/api/v1/controllers/userController", () => ({
     createEmployee: jest.fn((req, res) => res.status(201).send()),
@@ -9,6 +9,7 @@ jest.mock("../src/api/v1/controllers/userController", () => ({
     getEmployeeById: jest.fn(),
     updateEmployeeById: jest.fn(),
     deleteEmployeeById: jest.fn((req, res) => res.status(200).json({ message: "Employee Deleted Successfully" })),
+    getEmployeesByBranch: jest.fn()
 }));
 
 describe("User Routes", () => {
@@ -99,7 +100,7 @@ describe("User Routes", () => {
             expect(getEmployeeById).toHaveBeenCalled();
         });
     });
-    
+
     describe("PUT /api/v1/employees/:id", () => {
         it("should update an employee's data and return the updated employee", async () => {
             const employeeId = "1";
@@ -151,6 +152,39 @@ describe("User Routes", () => {
             expect(response.body).toEqual({ message: "Employee Deleted Successfully" });
 
             expect(deleteEmployeeById).toHaveBeenCalled();
+        });
+    });
+
+    describe("GET /api/v1/employees/branch/:branchId", () => {
+        it("should return all employees for a specific branch", async () => {
+            const branchId = "1";
+            const mockEmployees = [
+                {
+                    id: "1",
+                    name: "John Doe",
+                    position: "Software Engineer",
+                    department: "Engineering",
+                    email: "johndoe@example.com",
+                    phone: "1234567890",
+                    branchId: "1",
+                },
+            ];
+
+            (getEmployeesByBranch as jest.Mock).mockImplementation(async (req, res) => {
+                res.status(200).json({
+                    message: "Employees Retrieved by Branch",
+                    data: mockEmployees,
+                });
+            });
+
+            const response = await request(app).get(`/api/v1/employees/branch/${branchId}`);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual({
+                message: "Employees Retrieved by Branch",
+                data: mockEmployees,
+            });
+            expect(getEmployeesByBranch).toHaveBeenCalled();
         });
     });
 });

@@ -91,3 +91,12 @@ export const deleteEmployee = async (id: string): Promise<void> => {
     // Remove the employee from the array
     employees.splice(index, 1);
 };
+
+/**
+ * @description Get all employees by branch ID.
+ * @param {string} branchId - The ID of the branch.
+ * @returns {Promise<User[]>}
+ */
+export const getEmployeesByBranch = async (branchId: string): Promise<User[]> => {
+    return employees.filter(emp => emp.branchId === branchId);
+};
