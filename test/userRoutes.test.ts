@@ -99,6 +99,7 @@ describe("User Routes", () => {
             expect(getEmployeeById).toHaveBeenCalled();
         });
     });
+    
     describe("PUT /api/v1/employees/:id", () => {
         it("should update an employee's data and return the updated employee", async () => {
             const employeeId = "1";
@@ -133,8 +134,7 @@ describe("User Routes", () => {
             expect(updateEmployeeById).toHaveBeenCalled();
         });
     });
-
-    
+  
     // New test case for deleting an employee
     describe("DELETE /api/v1/employees/:id", () => {
         it("should delete an employee and return a success message", async () => {

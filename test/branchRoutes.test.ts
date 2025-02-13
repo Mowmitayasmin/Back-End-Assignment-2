@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../src/app";
-import { createBranch, getAllBranches, getBranchById} from "../src/api/v1/controllers/branchController";
+import { createBranch, getAllBranches, getBranchById, updateBranchById} from "../src/api/v1/controllers/branchController";
 
 jest.mock("../src/api/v1/controllers/branchController", () => ({
     createBranch: jest.fn((req, res) => res.status(201).send({
@@ -11,6 +11,7 @@ jest.mock("../src/api/v1/controllers/branchController", () => ({
         { id: "1", name: "Main Branch", address: "123 Main St", phone: "123-456-7890" }
     ]),
     getBranchById: jest.fn(),
+    updateBranchById: jest.fn(),
 }));
 
 describe("Branch Routes", () => {
@@ -105,5 +106,40 @@ describe("Branch Routes", () => {
             expect(getBranchById).toHaveBeenCalled();
         });
     });
+
+     // Test case for "PUT /api/v1/branches/:id"
+     describe("PUT /api/v1/branches/:id", () => {
+        it("should update a branch's data and return the updated branch", async () => {
+            const branchId = "1";
+            const updateData = { address: "456 New St", phone: "987-654-3210" };
+            const updatedBranch = {
+                id: branchId,
+                name: "Main Branch",
+                address: "456 New St",
+                phone: "987-654-3210",
+            };
+
+            (updateBranchById as jest.Mock).mockImplementation(async (req, res) => {
+                res.status(200).json({
+                    message: "Branch Updated",
+                    data: updatedBranch,
+                });
+            });
+
+            const response = await request(app)
+                .put(`/api/v1/branches/${branchId}`)
+                .send(updateData);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual({
+                message: "Branch Updated",
+                data: updatedBranch,
+            });
+
+            expect(updateBranchById).toHaveBeenCalled();
+        });
+    });
 });
 
+
+            
