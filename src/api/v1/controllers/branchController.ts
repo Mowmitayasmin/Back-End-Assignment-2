@@ -86,3 +86,24 @@ export const updateBranchById = async (
         next(error);
     }
 };
+
+/**
+ * @description Delete an existing branch.
+ * @route DELETE /api/v1/branches/:id
+ * @returns {Promise<void>}
+ */
+export const deleteBranchById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { id } = req.params;
+
+        await branchService.deleteBranch(id);
+
+        res.status(200).json({ message: "Branch Deleted Successfully" });
+    } catch (error) {
+        next(error);
+    }
+};

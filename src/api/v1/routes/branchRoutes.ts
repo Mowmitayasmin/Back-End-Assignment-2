@@ -31,4 +31,12 @@ router.get("/:id", branchController.getBranchById);
  */
 router.put("/:id", branchController.updateBranchById);
 
+/**
+ * @route DELETE /api/v1/branches/:id
+ * @description Delete a branch by ID.
+ * @param {string} id - The ID of the branch to delete.
+ * @returns {object} Confirmation of deletion.
+ */
+router.delete("/:id", branchController.deleteBranchById);
+
 export default router;
