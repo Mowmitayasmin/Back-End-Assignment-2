@@ -2,49 +2,99 @@
 
 Scenario 1: DELETE Employee Operation
 
-    Breakpoint Location: userController.ts, line where await userService.deleteEmployee(id); is called.
-    Objective: Investigating the behavior when attempting to delete an employee from the system.
+Breakpoint:
+userController.ts at const deletedEmployee = await userService.deleteEmployee(id);
 
-Debugger Observations
+Objective:
+Ensure the employee with the given ID is deleted from the employees array.
 
-    Variable States:
-        id = 1738992977390: Confirm the employee ID passed for deletion.
-        employees array: Check the list of employees before deletion. The array should contain all employees, including the one with the ID 1738992977390.
-    Call Stack: The call stack should show that the deleteEmployeeById function is being executed after receiving a DELETE request, which calls userService.deleteEmployee(id) and proceeds to delete the specified employee from the database or array.
-    Behavior: Once the DELETE request is sent, the breakpoint is hit, allowing you to inspect the state of id and employees. At this point, the employee should still exist in the array before deletion, and after the deletion, it should no longer be present.
+Debugger Observations:
+
+Variables:
+id: Check if the passed ID matches the expected one (e.g., 1739468407652).
+employees: Verify the employee exists before and is removed after deletion.
+Call Stack:
+Ensure the flow reaches deleteEmployeeById and deleteEmployee(id) correctly.
+Behavior:
+Confirm the employee is deleted from the array after the request.
 
 Analysis
 
-    What did you learn from this scenario?
-        This debugging process allows you to confirm that the employee deletion logic works as expected by ensuring the correct employee ID is being passed and that the employee is successfully removed from the array or database.
-    Did you observe any unexpected behavior?
-        If the employee is not removed from the array after the deleteEmployee call, this could indicate an issue with the deletion function in userService, such as a failure to update the employees array or an issue with database persistence.
-    Are there areas for improvement or refactoring in this part of the code?
-        If the deletion process involves multiple steps (e.g., validation, logging, etc.), refactoring the function into smaller, more manageable parts could make it easier to troubleshoot in the future.
-    How does this enhance your understanding of the overall project?
-        Understanding how the delete operation works provides insights into the flow of employee management, especially in terms of handling data and ensuring successful modification of the employees array or database.
+What did you learn from this scenario?
+
+The debugger allows checking both the ID being passed for deletion and ensuring the employee’s removal from the list.
+Did you observe any unexpected behavior?
+
+ Potential issues could arise if the employee ID doesn't match or the array isn't correctly updated after deletion.
+Are there areas for improvement or refactoring in this part of the code?
+
+Ensure that proper error handling is implemented if the employee doesn’t exist or the deletion operation fails.
+How does this enhance your understanding of the overall project?
+
+Understanding the debugging process for DELETE operations helps reinforce the importance of data consistency and correct handling of requests.
 
 Scenario 2: POST Employee Creation Operation
 
-    Breakpoint Location: userController.ts, line where const newEmployee: User = await userService.createEmployee(req.body); is called.
-    Objective: Investigating the behavior when a new employee is created via the POST request.
+Breakpoint:
+userController.ts at const newEmployee: User = await userService.createEmployee(req.body);
 
-Debugger Observations
+Objective:
+Ensure the correct data is passed to create a new employee.
 
-    Variable States:
-        req.body: Contains the data sent in the POST request, e.g., { "name": "John Doe", "position": "Software Engineer", "salary": 75000 }.
-        newEmployee: This object should reflect the newly created employee, showing the correct properties that match the data sent in the request body.
-    Call Stack: The call stack will show the sequence of function calls, including the POST request handler, followed by the createEmployee function call in the service layer that creates the new employee.
-    Behavior: Once the POST request is sent with the new employee data, the breakpoint will trigger, allowing you to inspect the state of the request body (req.body) and the result of the employee creation (newEmployee). After the creation logic is executed, you should see the new employee object in the newEmployee variable.
+Debugger Observations:
+
+Variables:
+req.body: Inspect the POST data (e.g., {"name": "John Doe", "position": "Software Engineer"}).
+newEmployee: Verify the created employee object.
+Call Stack:
+Check that createEmployee is called after receiving the POST request.
+Behavior:
+Verify that the employee is created correctly by inspecting req.body and newEmployee.
 
 Analysis
 
-    What did you learn from this scenario?
-        This scenario helps confirm that the POST request is correctly triggering the employee creation process and that the data is being handled as expected.
-    Did you observe any unexpected behavior?
-        If newEmployee does not reflect the correct employee data, it may suggest an issue with how the createEmployee function processes or stores the employee data. This could involve validation errors or issues with mapping the request body to the employee model.
-    Are there areas for improvement or refactoring in this part of the code?
-        The logic for handling employee creation might benefit from error handling and validation improvements, ensuring that all necessary fields are provided and valid before attempting to create a new employee.
-    How does this enhance your understanding of the overall project?
-        Debugging this scenario gives you a better understanding of how the backend processes POST requests and creates new employee records. It emphasizes the importance of correctly handling input data and interacting with the database or data structure.
-        
+What did you learn from this scenario?
+
+The debugger allows inspection of the incoming request data (req.body) and confirms whether the employee object is correctly created.
+Did you observe any unexpected behavior?
+
+If the newEmployee object doesn’t match the input data, check the userService.createEmployee logic for potential issues.
+Are there areas for improvement or refactoring in this part of the code?
+
+Ensure validation is in place to handle missing or incorrect data in req.body.
+How does this enhance your understanding of the overall project?
+
+Debugging POST requests strengthens understanding of data validation and proper object creation workflows.
+
+Scenario 3: POST Branch Creation Operation
+
+Breakpoint:
+branchController.ts at const newBranch: Branch = await branchService.createBranch(req.body);
+
+Objective:
+Ensure the branch data is correctly passed to create a new branch.
+
+Debugger Observations:
+
+Variables:
+req.body: Inspect the branch data (e.g., {"name": "Main Branch", "address": "123 Main St"}).
+newBranch: Ensure it includes correct details and a unique ID.
+Call Stack:
+Ensure the flow from the POST request to createBranch.
+Behavior:
+Verify the creation of the branch by inspecting req.body and newBranch.
+
+Analysis
+
+What did you learn from this scenario?
+
+The debugger helps inspect the incoming request data (req.body) and verifies that the branch creation logic processes it correctly.
+Did you observe any unexpected behavior?
+
+If the branch creation fails, the issue may lie in the validation or creation logic in createBranch.
+Are there areas for improvement or refactoring in this part of the code?
+
+Ensure error handling is robust, especially for cases where required data is missing or invalid.
+How does this enhance your understanding of the overall project?
+
+Debugging POST operations for branch creation improves understanding of managing data creation and validation for resources within the system.
