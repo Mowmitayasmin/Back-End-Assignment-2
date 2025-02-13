@@ -100,3 +100,13 @@ export const deleteEmployee = async (id: string): Promise<void> => {
 export const getEmployeesByBranch = async (branchId: string): Promise<User[]> => {
     return employees.filter(emp => emp.branchId === branchId);
 };
+
+/**
+ * @description Get all employees by department ID.
+ * @param {string} departmentId - The ID of the department.
+ * @returns {Promise<User[]>}
+ */
+export const getEmployeesByDepartment = async (departmentId: string): Promise<User[]> => {
+    // Filter the employees array to return only employees in the specified department
+    return employees.filter(emp => emp.department === departmentId);
+};

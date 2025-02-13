@@ -1,7 +1,7 @@
 // userRoutes.test.ts
 import request from "supertest";
 import app from "../src/app";
-import { createEmployee, getEmployeeById, updateEmployeeById, deleteEmployeeById, getEmployeesByBranch } from "../src/api/v1/controllers/userController";
+import { createEmployee, getEmployeeById, updateEmployeeById, deleteEmployeeById, getEmployeesByBranch, getEmployeesByDepartment } from "../src/api/v1/controllers/userController";
 
 jest.mock("../src/api/v1/controllers/userController", () => ({
     createEmployee: jest.fn((req, res) => res.status(201).send()),
@@ -9,7 +9,8 @@ jest.mock("../src/api/v1/controllers/userController", () => ({
     getEmployeeById: jest.fn(),
     updateEmployeeById: jest.fn(),
     deleteEmployeeById: jest.fn((req, res) => res.status(200).json({ message: "Employee Deleted Successfully" })),
-    getEmployeesByBranch: jest.fn()
+    getEmployeesByBranch: jest.fn(),
+    getEmployeesByDepartment: jest.fn()
 }));
 
 describe("User Routes", () => {
@@ -185,6 +186,50 @@ describe("User Routes", () => {
                 data: mockEmployees,
             });
             expect(getEmployeesByBranch).toHaveBeenCalled();
+        });
+    });
+
+    describe("GET /api/v1/employees/department/:departmentId", () => {
+        it("should return an array of employees in the specified department", async () => {
+            const departmentId = "Engineering";
+            const mockEmployees = [
+                {
+                    id: "1",
+                    name: "John Doe",
+                    position: "Software Engineer",
+                    department: "Engineering",
+                    email: "johndoe@example.com",
+                    phone: "1234567890",
+                    branchId: "1",
+                },
+                {
+                    id: "2",
+                    name: "Jane Smith",
+                    position: "Product Manager",
+                    department: "Engineering",
+                    email: "janesmith@example.com",
+                    phone: "0987654321",
+                    branchId: "1",
+                },
+            ];
+
+            // Mock the getEmployeesByDepartment controller function
+            (getEmployeesByDepartment as jest.Mock).mockImplementation(async (req, res) => {
+                res.status(200).json({
+                    message: "Employees Retrieved by Department",
+                    data: mockEmployees,
+                });
+            });
+
+            const response = await request(app).get(`/api/v1/employees/department/${departmentId}`);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual({
+                message: "Employees Retrieved by Department",
+                data: mockEmployees,
+            });
+
+            expect(getEmployeesByDepartment).toHaveBeenCalled();
         });
     });
 });

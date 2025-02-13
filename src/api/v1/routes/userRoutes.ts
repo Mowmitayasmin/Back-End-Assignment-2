@@ -48,4 +48,12 @@ router.delete("/:id", userController.deleteEmployeeById);
  */
 router.get("/branch/:branchId", userController.getEmployeesByBranch);
 
+/**
+ * @route GET /api/v1/employees/department/:departmentId
+ * @description Get all employees for a specific department.
+ * @param {string} departmentId - The ID of the department.
+ * @returns {object[]} An array of employees belonging to the specified department.
+ */
+router.get("/department/:departmentId", userController.getEmployeesByDepartment);
+
 export default router;

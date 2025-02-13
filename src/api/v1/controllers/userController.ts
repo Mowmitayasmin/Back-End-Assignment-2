@@ -126,3 +126,26 @@ export const getEmployeesByBranch = async (
         next(error);
     }
 };
+
+/**
+ * @description Get all employees for a specific department.
+ * @route GET /api/v1/employees/department/:departmentId
+ * @returns {Promise<void>}
+ */
+export const getEmployeesByDepartment = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { departmentId } = req.params;  // Retrieve the departmentId from the route params
+        const employees: User[] = await userService.getEmployeesByDepartment(departmentId);  // Call service to get employees by department
+        
+        res.status(200).json({ 
+            message: employees.length ? "Employees Retrieved" : "No employees found for this department", 
+            data: employees 
+        });
+    } catch (error) {
+        next(error);
+    }
+};
