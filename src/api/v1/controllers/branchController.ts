@@ -40,3 +40,26 @@ export const getAllBranches = async (
         next(error);
     }
 };
+
+/**
+ * @description Get a branch by ID.
+ * @route GET /api/v1/branches/:id
+ * @returns {Promise<void>}
+ */
+export const getBranchById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { id } = req.params;
+        const branch: Branch | null = await branchService.getBranchById(id);
+
+        res.status(200).json({
+            message: branch ? "Branch Retrieved" : "Branch not found",
+            data: branch
+        });
+    } catch (error) {
+        next(error);
+    }
+};

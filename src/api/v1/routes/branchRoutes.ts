@@ -16,4 +16,11 @@ router.post("/", branchController.createBranch);
  */
 router.get("/", branchController.getAllBranches);
 
+/**
+ * @route GET /api/v1/branches/:id
+ * @description Get a branch by ID.
+ */
+router.get("/:id", branchController.getBranchById);
+
+
 export default router;

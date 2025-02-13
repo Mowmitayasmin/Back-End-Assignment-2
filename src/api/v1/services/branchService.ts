@@ -34,3 +34,13 @@ export const createBranch = async (branch: {
 export const getAllBranches = async (): Promise<Branch[]> => {
     return branches;
 };
+
+/**
+ * @description Get a branch by ID.
+ * @param {string} id - The ID of the branch to fetch.
+ * @returns {Promise<Branch | null>} - The branch if found, or null if not.
+ */
+export const getBranchById = async (id: string): Promise<Branch | null> => {
+    const branch = branches.find(branch => branch.id === id);
+    return branch || null; // Return the branch if found, otherwise null
+};
