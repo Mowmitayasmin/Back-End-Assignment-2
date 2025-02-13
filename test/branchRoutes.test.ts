@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../src/app";
-import { createBranch, getAllBranches, getBranchById, updateBranchById} from "../src/api/v1/controllers/branchController";
+import { createBranch, getAllBranches, getBranchById, updateBranchById, deleteBranchById } from "../src/api/v1/controllers/branchController";
 
 jest.mock("../src/api/v1/controllers/branchController", () => ({
     createBranch: jest.fn((req, res) => res.status(201).send({
@@ -12,6 +12,7 @@ jest.mock("../src/api/v1/controllers/branchController", () => ({
     ]),
     getBranchById: jest.fn(),
     updateBranchById: jest.fn(),
+    deleteBranchById: jest.fn((req, res) => res.status(200).json({ message: "Branch Deleted Successfully" })),
 }));
 
 describe("Branch Routes", () => {
@@ -137,6 +138,24 @@ describe("Branch Routes", () => {
             });
 
             expect(updateBranchById).toHaveBeenCalled();
+        });
+    });
+
+    // Test case for "DELETE /api/v1/branches/:id"
+    describe("DELETE /api/v1/branches/:id", () => {
+        it("should delete a branch and return a success message", async () => {
+            const branchId = "1";
+
+            (deleteBranchById as jest.Mock).mockImplementation(async (req, res) => {
+                res.status(200).json({ message: "Branch Deleted Successfully" });
+            });
+
+            const response = await request(app).delete(`/api/v1/branches/${branchId}`);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual({ message: "Branch Deleted Successfully" });
+
+            expect(deleteBranchById).toHaveBeenCalled();
         });
     });
 });
