@@ -63,3 +63,26 @@ export const getBranchById = async (
         next(error);
     }
 };
+
+/**
+ * @description Update an existing branch.
+ * @route PATCH /api/v1/branches/:id
+ * @returns {Promise<void>}
+ */
+export const updateBranchById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        // Call the branchService by passing the id from the URL path and the request body
+        const updatedBranch: Branch = await branchService.updateBranch(
+            req.params.id,
+            req.body
+        );
+
+        res.status(200).json({ message: "Branch Updated", data: updatedBranch });
+    } catch (error) {
+        next(error);
+    }
+};

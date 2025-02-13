@@ -44,3 +44,27 @@ export const getBranchById = async (id: string): Promise<Branch | null> => {
     const branch = branches.find(branch => branch.id === id);
     return branch || null; // Return the branch if found, otherwise null
 };
+
+/**
+ * @description Update an existing branch.
+ * @param {string} id - The ID of the branch to update.
+ * @param {Partial<Branch>} branch - The fields to update (e.g., address, phone).
+ * @returns {Promise<Branch>} - The updated branch data.
+ * @throws {Error} If the branch with the given ID is not found.
+ */
+export const updateBranch = async (
+    id: string,
+    branch: Partial<Branch>
+): Promise<Branch> => {
+    const branchRecord = branches.find(b => b.id === id);
+
+    if (!branchRecord) {
+        throw new Error(`Branch with ID ${id} not found`);
+    }
+
+    // Update only the fields provided in the request body (partial update)
+    Object.assign(branchRecord, branch);
+
+    return branchRecord;
+};
+

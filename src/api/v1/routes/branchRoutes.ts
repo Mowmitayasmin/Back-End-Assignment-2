@@ -22,5 +22,14 @@ router.get("/", branchController.getAllBranches);
  */
 router.get("/:id", branchController.getBranchById);
 
+/**
+ * @route PATCH /api/v1/branches/:id
+ * @description Update an existing branch (e.g., update address or phone number).
+ * @param {string} id - The ID of the branch to update.
+ * @param {object} branch - The updated branch data (address, phone, etc.).
+ * @returns {object} The updated branch data.
+ */
+router.patch("/:id", branchController.updateBranchById);
+
 
 export default router;
