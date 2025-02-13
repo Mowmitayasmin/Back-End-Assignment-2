@@ -1,12 +1,15 @@
 import request from "supertest";
 import app from "../src/app";
-import { createBranch} from "../src/api/v1/controllers/branchController";
+import { createBranch, getAllBranches} from "../src/api/v1/controllers/branchController";
 
 jest.mock("../src/api/v1/controllers/branchController", () => ({
     createBranch: jest.fn((req, res) => res.status(201).send({
         message: "Branch Created",
         data: { id: "1", name: "Main Branch", address: "123 Main St", phone: "123-456-7890" }
-    })), 
+    })),
+    getAllBranches: jest.fn(() => [
+        { id: "1", name: "Main Branch", address: "123 Main St", phone: "123-456-7890" }
+    ]), 
 }));
 
 describe("Branch Routes", () => {
@@ -37,6 +40,38 @@ describe("Branch Routes", () => {
 
             // Check if createBranch was called
             expect(createBranch).toHaveBeenCalled();
+        });
+    });
+
+     // Test case for "GET /api/v1/branches"
+     describe("GET /api/v1/branches", () => {
+        it("should return an array of all branches", async () => {
+            const mockBranches = [
+                {
+                    id: "1",
+                    name: "Main Branch",
+                    address: "123 Main St",
+                    phone: "123-456-7890"
+                }
+            ];
+
+            // Mock the getAllBranches controller function
+            (getAllBranches as jest.Mock).mockImplementation(async (req, res) => {
+                res.status(200).json({
+                    message: "All Branches Retrieved",
+                    data: mockBranches,
+                });
+            });
+
+            const response = await request(app).get("/api/v1/branches");
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual({
+                message: "All Branches Retrieved",
+                data: mockBranches,
+            });
+
+            expect(getAllBranches).toHaveBeenCalled();
         });
     });
 });
