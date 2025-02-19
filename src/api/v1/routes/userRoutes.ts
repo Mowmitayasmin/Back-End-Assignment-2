@@ -1,9 +1,12 @@
 // userRoutes.ts
 import express, { Router } from "express";
 import * as userController from "../controllers/userController";
+import { validateRequest } from "../middleware/validate";
+import { employeeSchema } from "../validation/userValidation";
 
 // Create an instance of the router for the user-related routes
 const router: Router = express.Router();
+router.post("/employees", validateRequest(employeeSchema), userController.createEmployee);
 
 /**
  * @route POST /api/v1/employees

@@ -1,8 +1,11 @@
 import express, { Router } from "express";
 import * as branchController from "../controllers/branchController";
+import { validateRequest } from "../middleware/validate";
+import { branchSchema } from "../validation/branchValidation";
 
 // Create an instance of the router for branch-related routes
 const router: Router = express.Router();
+router.post("/branches", validateRequest(branchSchema), branchController.createBranch);
 
 /**
  * @route POST /api/v1/branches
