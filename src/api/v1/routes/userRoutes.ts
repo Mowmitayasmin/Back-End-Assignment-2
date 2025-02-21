@@ -6,13 +6,12 @@ import { employeeSchema } from "../validation/userValidation";
 
 // Create an instance of the router for the user-related routes
 const router: Router = express.Router();
-router.post("/employees", validateRequest(employeeSchema), userController.createEmployee);
 
 /**
  * @route POST /api/v1/employees
  * @description Create a new employee
  */
-router.post("/", userController.createEmployee);
+router.post("/", validateRequest(employeeSchema), userController.createEmployee);
 
 /**
  * @route GET /

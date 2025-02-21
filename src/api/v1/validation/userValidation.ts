@@ -22,6 +22,10 @@ export const employeeSchema: ObjectSchema = Joi.object({
         "any.required": "Branch ID is required",
         "string.empty": "Branch ID cannot be empty",
     }),
+
+    department: Joi.string().optional(),
+    phone: Joi.string().optional(),
+
     createdAt: Joi.date(),
     updatedAt: Joi.date(),
 });
