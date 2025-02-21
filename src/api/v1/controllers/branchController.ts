@@ -55,6 +55,10 @@ export const getBranchById = async (
         const { id } = req.params;
         const branch: Branch | null = await branchService.getBranchById(id);
 
+        if (!branch) {
+            return next({ status: 404, message: "Branch not found" }); // if catches then a proper error
+        }
+
         res.status(200).json({
             message: branch ? "Branch Retrieved" : "Branch not found",
             data: branch

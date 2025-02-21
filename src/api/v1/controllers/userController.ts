@@ -49,7 +49,11 @@ export const getEmployeeById = async (
 ): Promise<void> => {
     try {
         const { id } = req.params; 
-        const employee: User | null = await userService.getEmployeeById(id); 
+        const employee: User | null = await userService.getEmployeeById(id);
+
+        if (!employee) {
+            return next({ status: 404, message: "Employee not found" }); // if catches then a proper error
+        }
 
         res.status(200).json({ 
             message: employee ? "Employee Retrieved" : "Employee not found", 

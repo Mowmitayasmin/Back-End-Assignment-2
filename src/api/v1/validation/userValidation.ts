@@ -13,7 +13,7 @@ export const employeeSchema: ObjectSchema = Joi.object({
         "string.max": "Position cannot exceed 50 characters",
         "any.required": "Position is required",
     }),
-    email: Joi.string().email().required().messages({
+    email: Joi.string().email().required().messages({   
         "any.required": "Email is required",
         "string.email": "Must be a valid email",
         "string.empty": "Email cannot be empty",

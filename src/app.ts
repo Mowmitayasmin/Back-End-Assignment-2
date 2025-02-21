@@ -7,6 +7,9 @@ import setupSwagger from "../config/swagger";
 import userRoutes from "./api/v1/routes/userRoutes";
 import branchRoutes from "./api/v1/routes/branchRoutes";
 
+//imports for Error Handling
+import errorHandler from "./api/v1/middleware/errorHandler";
+
 // initialize the express application
 const app: Express = express();
 
@@ -228,6 +231,9 @@ app.get("/", (req, res) => {
 app.get("/health", (req, res) => {
     res.send("Server is healthy");
 });
+
+//Error Handling
+app.use(errorHandler)
 
 // export app and server for testing
 export default app;
