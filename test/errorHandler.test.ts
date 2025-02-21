@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import errorHandler from "../src/api/v1/middleware/errorHandler"; 
+import { errorLogger } from "../src/api/v1/middleware/logger";
+
+jest.mock("../src/api/v1/middleware/logger");
 
 describe("Error Handling Middleware", () => {
     let mockReq: Partial<Request>;
@@ -21,6 +24,10 @@ describe("Error Handling Middleware", () => {
         
         errorHandler(mockError, mockReq as Request, mockRes as Response, mockNext);
 
+        expect(errorLogger.error).toHaveBeenCalledWith(
+            "An unexpected error occurred",
+            expect.any(Object)
+        );
         expect(mockRes.status).toHaveBeenCalledWith(500);
         expect(mockRes.json).toHaveBeenCalledWith({
             message: "An unexpected error occurred",
