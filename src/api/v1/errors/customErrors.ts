@@ -20,4 +20,30 @@ class NotFoundError extends AppError {
     }
 }
 
-export { AppError, ValidationError, NotFoundError };
+class RepositoryError extends Error {
+    code: string;
+    statusCode: number;
+
+    constructor(message: string, code: string, statusCode: number = 500) {
+        super(message);
+        this.name = "RepositoryError";
+        this.code = code;
+        this.statusCode = statusCode;
+        Object.setPrototypeOf(this, RepositoryError.prototype);
+    }
+}
+
+class ServiceError extends Error {
+    code: string;
+    statusCode: number;
+
+    constructor(message: string, code: string, statusCode: number = 500) {
+        super(message);
+        this.name = "ServiceError";
+        this.code = code;
+        this.statusCode = statusCode;
+        Object.setPrototypeOf(this, ServiceError.prototype);
+    }
+}
+
+export { AppError, ValidationError, NotFoundError, RepositoryError, ServiceError };
