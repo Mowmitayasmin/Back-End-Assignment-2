@@ -10,11 +10,18 @@ import branchRoutes from "./api/v1/routes/branchRoutes";
 //imports for Error Handling
 import errorHandler from "./api/v1/middleware/errorHandler";
 
+//imports for logging
+import {accessLogger} from "./api/v1/middleware/logger";
+
 // initialize the express application
 const app: Express = express();
 
 // setup swagger for api documentation
 setupSwagger(app);
+
+// Logging Middleware
+app.use(accessLogger);
+app.use(express.json());
 
 app.use(morgan("combined"));
 app.use(express.json());
