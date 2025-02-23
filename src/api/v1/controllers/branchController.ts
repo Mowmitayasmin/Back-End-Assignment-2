@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import * as branchService from "../services/branchService";
 import { Branch } from "../services/branchService";
+import {NotFoundError, ValidationError} from "../errors/customErrors";
 
 /**
  * @description Create a new branch.
@@ -15,6 +16,10 @@ export const createBranch = async (
     try {
         // Call the branchService to create a new branch by passing the request body
         const newBranch: Branch = await branchService.createBranch(req.body);
+        const { name, address, phone } = req.body; 
+        if (!name || !address || !phone) {
+        return next(new ValidationError("Name, address, and phone are required"));
+                }
 
         // Return the created branch object in the response
         res.status(201).json({ message: "Branch Created", data: newBranch });
@@ -56,7 +61,7 @@ export const getBranchById = async (
         const branch: Branch | null = await branchService.getBranchById(id);
 
         if (!branch) {
-            return next({ status: 404, message: "Branch not found" }); // if catches then a proper error
+            return next(new NotFoundError("Branch not Found"));
         }
 
         res.status(200).json({
@@ -80,6 +85,12 @@ export const updateBranchById = async (
 ): Promise<void> => {
     try {
         // Call the branchService by passing the id from the URL path and the request body
+        const branch: Branch | null = await branchService.getBranchById(req.params.id);
+
+        if (!branch) {
+            return next(new NotFoundError("Branch not Found"));
+        }
+
         const updatedBranch: Branch = await branchService.updateBranch(
             req.params.id,
             req.body
@@ -103,6 +114,11 @@ export const deleteBranchById = async (
 ): Promise<void> => {
     try {
         const { id } = req.params;
+        const branch: Branch | null = await branchService.getBranchById(id);
+
+        if (!branch) {
+            return next(new NotFoundError("Branch not Found"));
+        }
 
         await branchService.deleteBranch(id);
 

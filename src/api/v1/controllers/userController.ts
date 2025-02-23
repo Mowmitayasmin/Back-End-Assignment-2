@@ -2,6 +2,7 @@
 import { Request, Response, NextFunction } from "express";
 import * as userService from "../services/userService";
 import { User } from "../services/userService";
+import {NotFoundError,ValidationError} from "../errors/customErrors";
 
 /**
  * @description Create a new employee.
@@ -16,7 +17,10 @@ export const createEmployee = async (
     try {
         // Call the userService to create a new employee by passing the request body
         const newEmployee: User = await userService.createEmployee(req.body);
-
+        const { name, email, position, branchId } = req.body; 
+        if (!name || !email || !position || !branchId) {
+        return next(new ValidationError("Name, email,  position, branchId are required"));
+                }
         // Return the created employee object in the response
         res.status(201).json({ message: "Employee Created", data: newEmployee });
     } catch (error) {
@@ -52,7 +56,7 @@ export const getEmployeeById = async (
         const employee: User | null = await userService.getEmployeeById(id);
 
         if (!employee) {
-            return next({ status: 404, message: "Employee not found" }); // if catches then a proper error
+            return next(new NotFoundError("Employee not Found"));
         }
 
         res.status(200).json({ 
@@ -76,6 +80,12 @@ export const updateEmployeeById = async (
 ): Promise<void> => {
     try {
         // Call the userService by passing the id from the URL path and the request body
+        const { id } = req.params; 
+        const employee = await userService.getEmployeeById(id);
+
+        if (!employee) {
+            return next(new NotFoundError("Employee not Found"));
+        }
         const updatedEmployee = await userService.updateEmployee(
             req.params.id,
             req.body
@@ -99,6 +109,11 @@ export const deleteEmployeeById = async (
 ): Promise<void> => {
     try {
         const { id } = req.params;
+        const employee = await userService.getEmployeeById(id);
+
+        if (!employee) {
+            return next(new NotFoundError("Employee not Found"));
+        }
 
         await userService.deleteEmployee(id);
 
