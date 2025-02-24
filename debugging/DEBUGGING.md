@@ -97,4 +97,112 @@ Are there areas for improvement or refactoring in this part of the code?
 Ensure error handling is robust, especially for cases where required data is missing or invalid.
 How does this enhance your understanding of the overall project?
 
-Debugging POST operations for branch creation improves understanding of managing data creation and validation for resources within the system.
+## Debugging POST operations for branch creation improves understanding of managing data creation and validation for resources within the system
+
+Scenario 1 for assignment 3: Validation Logic (Joi) for Employee Data
+Breakpoint:export const employeeSchema: ObjectSchema = Joi.object
+
+📌 src/api/v1/validation/userValidation.ts.
+Investigate how the validation logic processes incoming employee data and handles invalid requests.
+Debugger Observations:
+
+Variables:
+req.body: Inspect the incoming request payload to check if all required fields are provided.
+error: Verify the error object returned by Joi when validation fails.
+
+Call Stack:
+Ensure the request correctly flows from userRoutes.ts → userController.ts → userValidation.ts.
+
+Behavior:
+If validation fails, confirm whether the error is properly formatted and passed to the middleware.
+
+Analysis:
+
+What did you learn from this scenario?
+
+Debugging validation logic ensures that the API correctly processes incoming employee data and provides meaningful validation errors.
+
+Did you observe any unexpected behavior?
+
+If validation errors are not returned as expected, there might be an issue with Joi schema definition or error-handling middleware.
+
+Are there areas for improvement or refactoring in this part of the code?
+
+Ensure validation error messages are user-friendly and provide clear guidance on missing or incorrect fields.
+
+How does this enhance your understanding of the overall project?
+
+Debugging validation logic strengthens input validation, ensuring only well-formed data reaches the database, improving API reliability.
+
+Scenario 2 fro assignment 3: Firestore CRUD Operation (Fetch Employee by ID)
+Breakpoint:const employee = employees.find(emp => emp.id === id);
+
+📌 src/api/v1/services/userService.ts.
+
+Analyze how Firestore retrieves an employee's data and handles missing records.
+Debugger Observations:
+
+Variables:
+employeeSnapshot.exists: Ensure Firestore correctly determines if the requested employee exists.
+employeeSnapshot.data(): Verify the retrieved employee data structure.
+
+Call Stack:
+Trace the request flow from userRoutes.ts → userController.ts → userService.ts to ensure Firestore is properly queried.
+
+Behavior:
+If the employee does not exist, confirm that the system returns a proper 404 Not Found response.
+
+Analysis:
+
+What did you learn from this scenario?
+
+Debugging Firestore queries helps confirm correct data retrieval and proper handling of non-existent records.
+
+Did you observe any unexpected behavior?
+
+If employeeSnapshot.exists returns false for an existing employee, there may be an issue with the Firestore query or incorrect document ID usage.
+
+Are there areas for improvement or refactoring in this part of the code?
+
+Improve error messages when an employee ID is not found, ensuring users receive clear and informative responses.
+
+How does this enhance your understanding of the overall project?
+
+Understanding Firestore queries and debugging their behavior ensures the system correctly retrieves and processes stored data.
+
+Scenario 3 fro assignment 3: Error Handling Middleware (Custom Error Response)
+Breakpoint: res.status(statusCode).json({ message });
+
+📌 src/api/v1/middleware/errorMiddleware.ts.
+
+Examine how custom errors are formatted and returned as API responses.
+Debugger Observations:
+
+Variables:
+err.message: Ensure meaningful error messages are generated and returned.
+err.statusCode: Verify appropriate HTTP status codes are assigned to different errors.
+res: Check the response structure sent to the client for consistency.
+
+Call Stack:
+Trace how errors propagate from userService.ts → userController.ts → errorMiddleware.ts.
+
+Behavior:
+Confirm that errors are consistently handled and returned with the correct status codes.
+
+Analysis:
+
+What did you learn from this scenario?
+
+Debugging error-handling middleware ensures that API consumers receive clear, structured error messages when issues occur.
+
+Did you observe any unexpected behavior?
+
+If incorrect status codes or vague error messages are returned, adjustments may be needed in error-handling logic.
+
+Are there areas for improvement or refactoring in this part of the code?
+
+Improve logging mechanisms for better debugging and monitoring of error occurrences.
+
+How does this enhance your understanding of the overall project?
+
+Proper error handling enhances API reliability and user experience by ensuring predictable and informative responses.
