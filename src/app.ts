@@ -3,6 +3,7 @@ import express, { Express } from "express";
 import morgan from "morgan";
 import dotenv from 'dotenv';
 import cors from 'cors';
+import helmet from "helmet";
 dotenv.config();
 
 
@@ -20,6 +21,7 @@ import {accessLogger} from "./api/v1/middleware/logger";
 // initialize the express application
 const app: Express = express();
 app.use(cors())
+app.use(helmet());
 
 // setup swagger for api documentation
 setupSwagger(app);
