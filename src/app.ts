@@ -1,6 +1,10 @@
 // import the express application and type definition
 import express, { Express } from "express";
 import morgan from "morgan";
+import dotenv from 'dotenv';
+import cors from 'cors';
+dotenv.config();
+
 
 // import setupSwagger endpoint
 import setupSwagger from "../config/swagger";
@@ -15,6 +19,7 @@ import {accessLogger} from "./api/v1/middleware/logger";
 
 // initialize the express application
 const app: Express = express();
+app.use(cors())
 
 // setup swagger for api documentation
 setupSwagger(app);
