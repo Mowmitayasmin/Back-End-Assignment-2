@@ -4,23 +4,19 @@ import morgan from "morgan";
 import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from "helmet";
-dotenv.config();
-
-
 // import setupSwagger endpoint
 import setupSwagger from "../config/swagger";
 import userRoutes from "./api/v1/routes/userRoutes";
 import branchRoutes from "./api/v1/routes/branchRoutes";
-
 //imports for Error Handling
 import errorHandler from "./api/v1/middleware/errorHandler";
-
 //imports for logging
 import {accessLogger} from "./api/v1/middleware/logger";
+dotenv.config();
 
 // initialize the express application
 const app: Express = express();
-app.use(cors())
+app.use(cors());
 app.use(helmet());
 
 // setup swagger for api documentation
