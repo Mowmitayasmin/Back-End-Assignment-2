@@ -1,5 +1,5 @@
 import { Loan } from "../models/loan";
-import { createDocument, getDocuments, updateDocument } from "../repositories/firestoreRepository";
+import { createDocument, deleteDocument, getDocuments, updateDocument } from "../repositories/firestoreRepository";
 
 const COLLECTION = "loans";
 
@@ -25,4 +25,8 @@ export const updateDocuments = async (
 ): Promise<Loan> => {
     await updateDocument(COLLECTION, id, item);
     return { id, ...item } as Loan;
+};
+
+export const deleteDocuments = async (id: string): Promise<void> => {
+    await deleteDocument(COLLECTION, id);
 };
