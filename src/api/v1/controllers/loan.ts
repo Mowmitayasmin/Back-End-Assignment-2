@@ -116,3 +116,19 @@ export const approveLoan = async (
         next(error);
     }
 };
+
+export const deleteLoan = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        await loanService.deleteDocuments(req.params.id);
+        res.status(HTTP_STATUS.OK).json({
+            message: 'Item deleted successfully',
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
