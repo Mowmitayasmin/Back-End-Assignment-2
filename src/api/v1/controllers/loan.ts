@@ -59,7 +59,32 @@ export const updateLoan = async (
         res.status(HTTP_STATUS.OK).json(
             {
                 message: 'Updated successfully',
-                item: updated
+                loan: updated
+            }
+        );
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const reviewLoan = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+
+        const updated: Loan = await loanService.updateDocuments(
+            req.params.id,
+           {
+            is_reviewed: true
+           }
+        );
+
+        res.status(HTTP_STATUS.OK).json(
+            {
+                message: 'Reviewd successfully',
+                loan: updated
             }
         );
     } catch (error) {
