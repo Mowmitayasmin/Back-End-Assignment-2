@@ -3,6 +3,9 @@ import { Request, Response, NextFunction } from "express";
 import * as userService from "../services/userService";
 import { User } from "../services/userService";
 import {NotFoundError,ValidationError} from "../errors/customErrors";
+import { UserRecord } from 'firebase-admin/auth';
+import { auth } from "../../../../config/firebaseConfig";
+import { HTTP_STATUS } from "src/constants/httpConstants";
 
 /**
  * @description Create a new employee.
@@ -168,3 +171,26 @@ export const getEmployeesByDepartment = async (
         next(error);
     }
 };
+
+export const userDetails = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    const { id } = req.params;
+  
+    if (!id) {
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ message: 'User id is required' });
+      return;
+    }
+  
+    try {
+      const user: UserRecord = await auth.getUser(id);
+      res.status(HTTP_STATUS.OK).json({
+        success: true,
+        data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
