@@ -19,7 +19,7 @@ export const getAllLoans = async (
     }
 };
 
-export const createItem = async (
+export const createLoan = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -43,3 +43,26 @@ export const createItem = async (
         next(error);
     }
 }
+
+export const updateLoan = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+
+        const updated: Loan = await loanService.updateDocuments(
+            req.params.id,
+            req.body
+        );
+
+        res.status(HTTP_STATUS.OK).json(
+            {
+                message: 'Updated successfully',
+                item: updated
+            }
+        );
+    } catch (error) {
+        next(error);
+    }
+};
