@@ -91,3 +91,28 @@ export const reviewLoan = async (
         next(error);
     }
 };
+
+export const approveLoan = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+
+        const updated: Loan = await loanService.updateDocuments(
+            req.params.id,
+           {
+            is_approved: true
+           }
+        );
+
+        res.status(HTTP_STATUS.OK).json(
+            {
+                message: 'Approved successfully',
+                loan: updated
+            }
+        );
+    } catch (error) {
+        next(error);
+    }
+};
