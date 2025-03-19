@@ -1,5 +1,5 @@
 import { Loan } from "../models/loan";
-import { getDocuments } from "../repositories/firestoreRepository";
+import { createDocument, getDocuments } from "../repositories/firestoreRepository";
 
 const COLLECTION = "loans";
 
@@ -12,4 +12,9 @@ export const getAllDocuments = async (): Promise<Loan[]> => {
         const data: FirebaseFirestore.DocumentData = doc.data();
         return { id: doc.id, ...data } as Loan;
     });
+};
+
+export const createDocuments = async (item: Partial<Loan>): Promise<Loan> => {
+    const id: string = await createDocument(COLLECTION, item);
+    return { id, ...item } as Loan;
 };
