@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { isAuthenticate } from '../middleware/authenticate';
 import { isAuthorize } from '../middleware/authorize';
-import { approveLoan, createLoan, reviewLoan } from '../controllers/loan';
+import { approveLoan, createLoan, getAllLoans, reviewLoan } from '../controllers/loan';
 
 const router: Router = express.Router();
 
@@ -19,5 +19,10 @@ router.put('/:id/approve', isAuthenticate, isAuthorize({
     hasRole:['manager', 'admin'],
     allowSameUser: true
 }), approveLoan)
+
+router.get('/', isAuthenticate, isAuthorize({
+    hasRole:['manager', 'officer', 'admin'],
+    allowSameUser: true
+}), getAllLoans)
 
 export default router
