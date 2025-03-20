@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { isAuthenticate } from '../middleware/authenticate';
 import { isAuthorize } from '../middleware/authorize';
-import { approveLoan, createLoan, getAllLoans, reviewLoan } from '../controllers/loan';
+import { approveLoan, createLoan, deleteLoan, getAllLoans, reviewLoan } from '../controllers/loan';
 
 const router: Router = express.Router();
 
@@ -24,5 +24,12 @@ router.get('/', isAuthenticate, isAuthorize({
     hasRole:['manager', 'officer', 'admin'],
     allowSameUser: true
 }), getAllLoans)
+
+router.delete(
+    "/:id/delete",
+    isAuthenticate,
+    isAuthorize({ hasRole: ["admin", "manager"] }),
+    deleteLoan
+);
 
 export default router
