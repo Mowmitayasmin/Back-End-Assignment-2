@@ -35,7 +35,7 @@ export const createLoan = async (
 
       res.status(HTTP_STATUS.CREATED).json(
             {
-                message: 'Item created susscssfully',
+                message: 'Loan created susscssfully',
                 item: item
             }
         );
@@ -125,7 +125,7 @@ export const deleteLoan = async (
     try {
         await loanService.deleteDocuments(req.params.id);
         res.status(HTTP_STATUS.OK).json({
-            message: 'Item deleted successfully',
+            message: 'Loan deleted successfully',
         });
     } catch (error) {
         next(error);

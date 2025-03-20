@@ -8,6 +8,42 @@ class AppError extends Error {
     }
 }
 
+class ErrorClass extends Error {
+    constructor(
+        public message: string,
+        public code: string,
+        public statusCode: number
+    ) {
+        super(message);
+        this.name = this.constructor.name;
+        Object.setPrototypeOf(this, new.target.prototype);
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+
+class AuthenticationError extends ErrorClass {
+
+    constructor(
+        message: string,
+        code: string = "AUTHENTICATION",
+        statusCode: number = 401
+    ) {
+        super(message, code, statusCode);
+    }
+}
+
+class AuthorizationError extends ErrorClass {
+
+
+    constructor(
+        message: string,
+        code: string = "AUTHORIZATION",
+        statusCode: number = 403
+    ) {
+        super(message, code, statusCode);
+    }
+}
+
 class ValidationError extends AppError {
     constructor(message = "Validation failed") {
         super(message, 400);
@@ -46,4 +82,6 @@ class ServiceError extends Error {
     }
 }
 
-export { AppError, ValidationError, NotFoundError, RepositoryError, ServiceError };
+
+
+export { AppError, ValidationError, NotFoundError, RepositoryError, ServiceError, ErrorClass, AuthenticationError, AuthorizationError };
