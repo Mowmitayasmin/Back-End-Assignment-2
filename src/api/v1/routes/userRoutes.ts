@@ -58,4 +58,7 @@ router.get("/branch/:branchId", userController.getEmployeesByBranch);
  */
 router.get("/department/:departmentId", userController.getEmployeesByDepartment);
 
+router.get("user/:id", userController.userDetails)
+router.post("user/login", userController.login)
+
 export default router;

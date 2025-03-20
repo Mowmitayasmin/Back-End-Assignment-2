@@ -8,6 +8,7 @@ import helmet from "helmet";
 import setupSwagger from "../config/swagger";
 import userRoutes from "./api/v1/routes/userRoutes";
 import branchRoutes from "./api/v1/routes/branchRoutes";
+import loanRoutes from "./api/v1/routes/loan"
 //imports for Error Handling
 import errorHandler from "./api/v1/middleware/errorHandler";
 //imports for logging
@@ -32,6 +33,7 @@ app.use(express.json());
 // define your routes
 app.use("/api/v1/employees", userRoutes);  
 app.use("/api/v1/branches", branchRoutes);
+app.use("api/v1/loan", loanRoutes)
 
 /**
  * @openapi
