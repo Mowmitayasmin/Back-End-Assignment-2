@@ -18,8 +18,206 @@
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
+    },
+    "schemas": {
+      "loan": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for an loan"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of an loan"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of an loan"
+          },
+          "price": {
+            "type": "number",
+            "description": "The price of an loan"
+          },
+          "created_at": {
+            "type": "date-time",
+            "description": "The timestamp when the loan is created"
+          },
+          "updated_at": {
+            "type": "date-time",
+            "description": "The timestamp when the loan is last updated"
+          }
+        }
+      }
     }
   },
-  "paths": {},
-  "tags": []
+  "paths": {
+    "/api/v1/loans": {
+      "get": {
+        "summary": "Get loan by name",
+        "tags": [
+          "Loan"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Name of loan to retrieve"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": false,
+            "description": "Maximum number of loan to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of loans matching the name",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "loans": {
+                    "$ref": "#/components/schemas/Loan"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No loans found with the specified name"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/v1/loan/create": {
+      "post": {
+        "summary": "Create a new Loan",
+        "tags": [
+          "Loan"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Loan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Loan created"
+          }
+        }
+      }
+    },
+    "/api/v1/loan/{id}/review": {
+      "put": {
+        "summary": "Update an existing loan",
+        "tags": [
+          "Loan"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the loan to update"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated loan"
+          }
+        }
+      }
+    },
+    "/api/v1/loan/{id}/approve": {
+      "put": {
+        "summary": "Update an existing loan",
+        "tags": [
+          "Loan"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the loan to update"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated loan"
+          }
+        }
+      }
+    }
+    
+  },
+  "tags": []
 }
