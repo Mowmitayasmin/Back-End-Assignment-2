@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon src/server.ts"
+    "start": "nodemon src/server.ts",
+    "test:watch": "jest --watch",
+    "generate-docs": "ts-node script/generate-openapi.ts && npx @redocly/cli build-docs openapi.json --output api-docs/index.html"
   },
   "keywords": [],
   "author": "",
