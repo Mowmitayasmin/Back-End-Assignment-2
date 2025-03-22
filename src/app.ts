@@ -33,7 +33,7 @@ app.use(express.json());
 // define your routes
 app.use("/api/v1/employees", userRoutes);  
 app.use("/api/v1/branches", branchRoutes);
-app.use("api/v1/loan", loanRoutes)
+app.use("/api/v1/loan", loanRoutes)
 
 /**
  * @openapi

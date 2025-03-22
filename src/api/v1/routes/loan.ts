@@ -6,29 +6,25 @@ import { approveLoan, createLoan, deleteLoan, getAllLoans, reviewLoan } from '..
 const router: Router = express.Router();
 
 router.post('/create', isAuthenticate, isAuthorize({
-    hasRole:['user'],
-    allowSameUser: true
+    hasRole:['user']
 }), createLoan)
 
 router.put('/:id/review', isAuthenticate, isAuthorize({
-    hasRole:['officer', 'admin'],
-    allowSameUser: true
+    hasRole:['officer']
 }), reviewLoan)
 
 router.put('/:id/approve', isAuthenticate, isAuthorize({
-    hasRole:['manager', 'admin'],
-    allowSameUser: true
+    hasRole:['manager']
 }), approveLoan)
 
 router.get('/', isAuthenticate, isAuthorize({
-    hasRole:['manager', 'officer', 'admin'],
-    allowSameUser: true
+    hasRole:['manager', 'officer']
 }), getAllLoans)
 
 router.delete(
     "/:id/delete",
     isAuthenticate,
-    isAuthorize({ hasRole: ["admin", "manager"] }),
+    isAuthorize({ hasRole: ["manager"] }),
     deleteLoan
 );
 

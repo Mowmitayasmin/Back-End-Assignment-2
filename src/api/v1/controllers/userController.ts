@@ -5,9 +5,9 @@ import { User } from "../services/userService";
 import {NotFoundError,ValidationError} from "../errors/customErrors";
 import { UserRecord } from 'firebase-admin/auth';
 import { auth } from "../../../../config/firebaseConfig";
-import { HTTP_STATUS } from "src/constants/httpConstants";
 import { clientAuth } from '../../../../config/firebaseClient';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { HTTP_STATUS } from "../../../constants/httpConstants"
 
 
 /**
