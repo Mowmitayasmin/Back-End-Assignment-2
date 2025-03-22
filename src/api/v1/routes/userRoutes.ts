@@ -3,6 +3,8 @@ import express, { Router } from "express";
 import * as userController from "../controllers/userController";
 import { validateRequest } from "../middleware/validate";
 import { employeeSchema } from "../validation/userValidation";
+import { isAuthenticate } from "../middleware/authenticate";
+import { isAuthorize } from "../middleware/authorize";
 
 // Create an instance of the router for the user-related routes
 const router: Router = express.Router();
@@ -58,7 +60,10 @@ router.get("/branch/:branchId", userController.getEmployeesByBranch);
  */
 router.get("/department/:departmentId", userController.getEmployeesByDepartment);
 
-router.get("user/:id", userController.userDetails)
-router.post("user/login", userController.login)
+router.get("/user/:id", userController.userDetails)
+router.post("/user/login", userController.login)
+router.post('/setcustom-claimes', isAuthenticate, isAuthorize({
+    hasRole:['admin']
+}),userController.customClaimes)
 
 export default router;
